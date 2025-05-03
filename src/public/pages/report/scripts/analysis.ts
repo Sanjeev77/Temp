@@ -168,20 +168,19 @@ async function evaluate() {
 
     const stockfishManager = setInterval(() => {
         // If all evaluations have been generated, move on
-        
+    
         if (!positions.some((pos) => !pos.topLines)) {
             clearInterval(stockfishManager);
-
+    
             logAnalysisInfo("Evaluation complete.");
             $("#evaluation-progress-bar").val(100);
-            $(".g-recaptcha").css("display", "inline");
-            if(!document.hasFocus()){
+
+            if (!document.hasFocus()) {
                 let snd = new Audio("static/media/ping.mp3");
                 snd.play();
             }
-            $("#secondary-message").html(
-                "Please complete the CAPTCHA to continue.",
-            );
+
+            $("#secondary-message").html("Evaluation complete. Ready to view the report.");
 
             evaluatedPositions = positions;
             ongoingEvaluation = false;
