@@ -10,16 +10,15 @@ import { ParseRequestBody, ReportRequestBody } from "./lib/types/RequestBody";
 const router = Router();
 
 router.post("/parse", async (req, res) => {
-
     let { pgn }: ParseRequestBody = req.body;
-    
+
     if (!pgn) {
         return res.status(400).json({ message: "Enter a PGN to analyse." });
     }
 
     // Parse PGN into object
     try {
-        var [ parsedPGN ] = pgnParser.parse(pgn);
+        var [parsedPGN] = pgnParser.parse(pgn);
 
         if (!parsedPGN) {
             return res.status(400).json({ message: "Enter a PGN to analyse." });
@@ -51,20 +50,18 @@ router.post("/parse", async (req, res) => {
             fen: board.fen(),
             move: {
                 san: moveSAN,
-                uci: moveUCI
-            }
+                uci: moveUCI,
+            },
         });
     }
 
     res.json({ positions });
-
 });
 
 router.post("/report", async (req, res) => {
+    let { positions }: ReportRequestBody = req.body;
 
-    let { positions, captchaToken }: ReportRequestBody = req.body;
-
-    if (!positions || !captchaToken) {
+    if (!positions) {
         return res.status(400).json({ message: "Missing parameters." });
     }
 
@@ -77,7 +74,6 @@ router.post("/report", async (req, res) => {
     }
 
     res.json({ results });
-
 });
 
 export default router;
