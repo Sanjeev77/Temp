@@ -173,7 +173,6 @@ async function evaluate() {
     
             logAnalysisInfo("Evaluation complete.");
             $("#evaluation-progress-bar").val(100);
-
             if (!document.hasFocus()) {
                 let snd = new Audio("static/media/ping.mp3");
                 snd.play();
@@ -293,9 +292,6 @@ function loadReportCards() {
 }
 
 async function report() {
-    // Remove CAPTCHA
-    
-    $(".g-recaptcha").css("display", "none");
     $("#secondary-message").html("");
     $("#evaluation-progress-bar").attr("value", null);
     logAnalysisInfo("Generating report...");
@@ -310,12 +306,11 @@ async function report() {
             },
             body: JSON.stringify({
                 positions: evaluatedPositions.map((pos) => {
-                    if (pos.worker != "cloud") {
+                    if (pos.worker !== "cloud") {
                         pos.worker = "local";
                     }
                     return pos;
                 }),
-                captchaToken: grecaptcha.getResponse() || "none",
             }),
         });
 
@@ -335,6 +330,7 @@ async function report() {
         return logAnalysisError("Failed to generate report.");
     }
 }
+
 
 $("#review-button").on("click", () => {
     isNewGame = true;
