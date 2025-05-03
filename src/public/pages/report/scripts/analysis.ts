@@ -25,14 +25,13 @@ function logAnalysisError(message: string) {
 }
 
 async function evaluate() {
-    // Remove and reset CAPTCHA, remove report cards, display progress bar
-    $(".g-recaptcha").css("display", "none");
-    grecaptcha.reset();
-
+    // Remove report cards, hide progress bar initially
     $("#report-cards").css("display", "none");
     $("#evaluation-progress-bar").css("display", "none");
 
-
+    // You may also want to reset any previous messages
+    $("#secondary-message").html("");
+}
     
 
     // Disallow evaluation if another evaluation is ongoing
