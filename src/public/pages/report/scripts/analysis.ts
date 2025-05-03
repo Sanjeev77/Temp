@@ -5,7 +5,7 @@ let reportResults: Report | undefined;
 
 function logAnalysisInfo(message: string) {
     $("#status-message").css("display", "block");
-    
+
     $("#status-message").css("background", "rgba(49, 51, 56, 255)");
     $("#status-message").css("color", "white");
     $("#status-message").html(message);
@@ -31,8 +31,6 @@ async function evaluate() {
 
     // You may also want to reset any previous messages
     $("#secondary-message").html("");
-}
-    
 
     // Disallow evaluation if another evaluation is ongoing
     if (ongoingEvaluation) return;
@@ -167,10 +165,9 @@ async function evaluate() {
 
     const stockfishManager = setInterval(() => {
         // If all evaluations have been generated, move on
-    
         if (!positions.some((pos) => !pos.topLines)) {
             clearInterval(stockfishManager);
-    
+
             logAnalysisInfo("Evaluation complete.");
             $("#evaluation-progress-bar").val(100);
             if (!document.hasFocus()) {
@@ -215,6 +212,7 @@ async function evaluate() {
         $("#evaluation-progress-bar").attr("value", progress);
         logAnalysisInfo(`Evaluating positions... (${progress.toFixed(1)}%)`);
     }, 10);
+}
 
 function loadReportCards() {
     // Reset chess board, draw evaluation for starting position
@@ -330,7 +328,6 @@ async function report() {
     }
 }
 
-
 $("#review-button").on("click", () => {
     isNewGame = true;
 
@@ -360,6 +357,12 @@ $("#depth-slider").on("input", () => {
     } else if (depth <= 17) {
         $("#depth-counter").html(depth + `|<i class="fa-solid fa-wind" style="color: #ffffff;"></i>`);
     } else {
-        $("#depth-counter").html(depth + `|<i class="fa-solid fa-hourglass-half" style="color: #ffffff;"></i>`);
+        $("#depth-counter").html(depth + `|<i class="fa-solid fa-radiation" style="color: #ffffff;"></i>`);
+    }
+});
+
+$(window).on("beforeunload", function() {
+    if (ongoingEvaluation) {
+        return "There is an ongoing evaluation in progress. Are you sure you want to leave?";
     }
 });
