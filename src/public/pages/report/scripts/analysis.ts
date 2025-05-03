@@ -215,7 +215,6 @@ async function evaluate() {
         $("#evaluation-progress-bar").attr("value", progress);
         logAnalysisInfo(`Evaluating positions... (${progress.toFixed(1)}%)`);
     }, 10);
-}
 
 function loadReportCards() {
     // Reset chess board, draw evaluation for starting position
